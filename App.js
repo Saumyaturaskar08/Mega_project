@@ -1,29 +1,36 @@
-// require("./config/database.js").connect()
-import express  from "express"
-import dotenv from "dotenv"
-dotenv.config()
-import connect from "./config/database.js"
-import { errorHandler } from "./middleware/errorhandler.js"
-connect()
-import bcrypt from "bcryptjs"
-import userRoutes from "./Routes/userRoutes.js"
-import productRoutes from "./Routes/productRoutes.js"
+import express from "express";
+import dotenv from "dotenv";
+import connect from "./config/database.js";
+import bcrypt from "bcryptjs";
+import userRoutes from "./Routes/userRoutes.js";
+import productRoutes from "./Routes/productRoutes.js";
+import categoryRoutes from "./Routes/categoryRoutes.js";
+import brandRoutes from "./Routes/brandRoutes.js";
+import colorsRoutes from "./Routes/colorsRoutes.js";
+import { errorHandler } from "./middleware/ErrorHandler.js";
 
-const app = express()
 
-app.use(express.json())
+// Initialize app
+const app = express();
 
-// Error handling
-app.use(errorHandler)
+// Load environment variables
+dotenv.config();
 
-//  register routes
-app.use("/api/users", userRoutes)
+// Connect to database
+connect();
 
-// Product route
-app.use("/api/products", productRoutes)
+// Middleware
+app.use(express.json());
 
+// Routes
+app.use("/api/users", userRoutes);
+// app.use("/api/products", productRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/brand", brandRoutes);
+app.use("/api/colors", colorsRoutes)
+
+// Error handling middleware
+app.use(errorHandler);
 
 export default app;
-
-  
- 
