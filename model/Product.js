@@ -42,10 +42,6 @@ const productSchema = new Schema({
     ref: "review"
   }],
 
-  price: {
-    type:Number
-  },
-
   totalQuantity: {
     type:Number
   },
