@@ -2,22 +2,74 @@
 import asyncHandler from "express-async-handler";
 import { Product } from "../model/Product.js";
 import mongoose from "mongoose";
+
+
+// for review with create
 // Create a new product
 export const createProduct = asyncHandler(async (req, res) => {
-  const { name, price, description,sizes,brand } = req.body;
+  const { name, price, description, brand, category, sizes, color, images, totalQuantity, totalSold, user } = req.body;
+  const reviews = []; // Initialize the reviews array
+
+  // Add reviews to the product, if any are provided
+  if (req.body.reviews && req.body.reviews.length > 0) {
+    for (const reviewData of req.body.reviews) {
+      const { rating, comment, user } = reviewData;
+      const review = new Review({
+        rating,
+        comment,
+        user: new mongoose.Types.ObjectId(user)
+      });
+      await review.save();
+      reviews.push(review._id);
+    }
+  }
+
   const product = await Product.create({
     name,
     price,
     description,
+    brand,
+    category,
     sizes,
-    brand
+    color,
+    images,
+    reviews, // Assign the reviews array to the reviews property of the product
+    totalQuantity,
+    totalSold,
+    user: new mongoose.Types.ObjectId(user)
   });
+
   return res.status(201).json({
     msg: "Product created successfully",
-    data: product,
-    // token
+    data: product
   });
 });
+
+// Create a new product original 
+
+// export const createProduct = asyncHandler(async (req, res) => {
+//   const { name, price, description, brand, category, sizes, color, images, reviews, totalQuantity, totalSold, user} = req.body;
+//   const product = await Product.create({
+//     name,
+//     price,
+//     description,
+//     brand,
+//     category,
+//     sizes,
+//     color,
+//     images,
+//     reviews,
+//     totalQuantity,
+//     totalSold,
+//     user: new mongoose.Types.ObjectId(user)
+
+//   });
+//   return res.status(201).json({
+//     msg: "Product created successfully",
+//     data: product,
+//     // token
+//   });
+// });
 
 // Get all products with optional name filter   
 
@@ -123,5 +175,5 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-//http://localhost:4000/api/products/delete/643d14924eac62cbdebee035
+// http://localhost:4000/api/products/delete/643d14924eac62cbdebee035
 

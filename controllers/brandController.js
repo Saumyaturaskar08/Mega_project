@@ -1,6 +1,6 @@
 // Import the Brand model from the brand.js module
 import { Brand } from "../model/Brand.js";
-
+import asyncHandler from "express-async-handler";
 // Create a new brand
 export const createBrand = async (req, res) => {
   try {
@@ -13,6 +13,7 @@ export const createBrand = async (req, res) => {
       user,
       products,
     });
+    // api for brand create = http://localhost:4000/api/brand/create
 
     // Save the brand object to the database
     const savedBrand = await newBrand.save();
@@ -24,18 +25,10 @@ export const createBrand = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 export default createBrand;
 
-export const getBrands = async (req, res) => {
-  try {
-    const brands = await Brand.find({});
-    res.status(200).json(brands);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
 
+//GET BRAND
 export const getBrandById = async (req, res) => {
   try {
     const brand = await Brand.findById(req.params?.id);
@@ -47,7 +40,9 @@ export const getBrandById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// api for get = http://localhost:4000/api/brand/read/644798b4cdfb25c595ff5deb
 
+// UPDATE BRAND
 export const updateBrand = async (req, res) => {
   try {
     const brand = await Brand.findById(req.params?.id);
@@ -58,21 +53,28 @@ export const updateBrand = async (req, res) => {
     brand.user = req.body.user || brand.user;
     brand.products = req.body.products || brand.products;
     const updatedBrand = await brand.save();
-    res.status(200).json(updatedBrand);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+    
+   res.status(200).json({ message: "Brand updated successfully", updatedBrand });
+ //res.status(200).json(updatedBrand);
 
-export const deleteBrand = async (req, res) => {
-  try {
-    const brand = await Brand.findById(req.params?.id);
-    if (!brand) {
-      return res.status(404).json({ message: "Brand not found" });
-    }
-    await brand.remove();
-    res.status(204).end();
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+// api for update = http://localhost:4000/api/brand/update/644798b4cdfb25c595ff5deb
+
+// DELETE BRAND
+export const deleteBrand = asyncHandler(async (req, res) => {
+  try {
+    const result = await Brand.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 1) {
+      res.status(200).json({ message: "Brand deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Brand not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+// api for delete = http://localhost:4000/api/brand/delete/644798b4cdfb25c595ff5deb

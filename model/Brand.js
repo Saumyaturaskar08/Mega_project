@@ -11,7 +11,7 @@ user: {
     ref: "User",
     required: true
 },
-product: [{
+products: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
 }],
