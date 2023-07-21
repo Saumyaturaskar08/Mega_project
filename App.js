@@ -12,7 +12,6 @@ import orderRoutes from "./Routes/orderRoutes.js";
 import couponRoutes from "./Routes/couponRoutes.js";
 import { errorHandler } from "./middleware/ErrorHandler.js";
 
-
 // Initialize app
 const app = express();
 
