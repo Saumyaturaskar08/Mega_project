@@ -23,7 +23,7 @@ return res.status(201).json({
     })
 }
 
-    export const Login = asyncHandler(
+export const Login = asyncHandler(
      async (req, res) => {
             const { email, password } = req.body
             const user = await User.findOne({ email })
@@ -34,8 +34,8 @@ return res.status(201).json({
             if (!passwordMatch) {
                 return res.status(401).json({ msg: 'Invalid email or password' })
             }
-            console.log(process.env.JWT_SECRET)
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET,{
+            console.log(process.env.JWT_TOKEN)
+            const token = jwt.sign({ id: user._id }, process.env.JWT_TOKEN,{
                 expiresIn: "30d"
             })
             return res.status(200).json({
@@ -45,3 +45,37 @@ return res.status(201).json({
             })
         }
 )
+export const updateShippingAddress = asyncHandler(async (req, res) => {
+    const {
+      firstName,
+      lastName,
+      address,
+      city,
+      postalcode,
+      province,
+      phone
+    } = req.body;
+  
+    const updatedUser = await User.findByIdAndUpdate(
+      req.useAuthId,
+      {
+        shippingAddress: {
+          firstName,
+          lastName,
+          address,
+          city,
+          postalcode,
+          province,
+          phone
+        },
+        hasShippingAddress: true
+      },
+      { new: true }
+    );
+  
+    res.json({
+      success: true,
+      message: "Updated Shipping Address",
+      user: updatedUser
+    });
+  });

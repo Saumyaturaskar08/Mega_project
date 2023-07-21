@@ -6,23 +6,23 @@ import {
     updateProduct,
     deleteProduct 
     } from "../controllers/productController.js";
-import isLogin from "../middleware/IsLogin.js";
+
 
 const router = express.Router(); // Capital "R" in "Router"
-
+import  IsLogin  from "../middleware/IsLogin.js";
 // CREATE: POST request to create a new brand
-router.post('/create', isLogin, createProduct);
+router.post('/create', IsLogin, createProduct);   
 
 // READ: GET request to get all brands
-router.get("/read", getProducts);
+router.get("/read", IsLogin, getProducts);
 
 // READ: GET request to get a brand by ID
-router.get("/read/:id", getProductById);
+router.get("/read/:id", IsLogin, getProductById);
 
 // UPDATE: PUT request to update a brand by ID
-router.put("/update/:id", updateProduct);
+router.put("/update/:id", IsLogin, updateProduct);
 
 // DELETE: DELETE request to delete a brand by ID
-router.delete("/delete/:id", deleteProduct);
+router.delete("/delete/:id", IsLogin, deleteProduct);
 
 export default router;

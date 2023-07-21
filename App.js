@@ -9,6 +9,7 @@ import brandRoutes from "./Routes/brandRoutes.js";
 import colorsRoutes from "./Routes/colorsRoutes.js";
 import reviewRoutes from "./Routes/reviewRoutes.js";
 import orderRoutes from "./Routes/orderRoutes.js";
+import couponRoutes from "./Routes/couponRoutes.js";
 import { errorHandler } from "./middleware/ErrorHandler.js";
 
 
@@ -33,6 +34,7 @@ app.use("/api/brand", brandRoutes);
 app.use("/api/colors", colorsRoutes);
 app.use("/api/review", reviewRoutes)
 app.use("/api/order", orderRoutes)
+app.use("/api/coupon", couponRoutes)
 
 // Error handling middleware
 app.use(errorHandler);

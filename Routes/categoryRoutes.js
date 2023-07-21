@@ -2,9 +2,9 @@ import express from 'express';
 import { createcategory, getCategoryById, getCategory, updateCategory, deleteCategory } from '../controllers/categoryController.js';
 
 const router = express.Router();
-
+import  IsLogin  from "../middleware/IsLogin.js";
 // Define a route for creating a new category
-router.post('/create', createcategory);
+router.post('/create', IsLogin, createcategory);
 
 // READ: GET request to get all Category
 router.get("/read", getCategory);

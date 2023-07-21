@@ -1,20 +1,22 @@
 
-import jwt  from "jsonwebtoken"
-import User from "../model/User.js"
+import { getTokenFromHeader } from "../utils/getTokenFromHeader.js";
 
-const isLogin = async (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1]
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    const user = await User.findById(decoded.id)
-    if (!user) {
-      return res.status(401).json({ message: "Authentication failed" })
+import { verifyToken } from "../utils/verifyToken.js";
+
+ const IsLogin = (req,res,next)=>{
+    // get token from header
+
+    const token = getTokenFromHeader(req)
+    // verify the token
+
+    const decodedUser = verifyToken(token)
+
+    if(!decodedUser){
+        throw new Error("Invalid/Expired token ,please login again")
+    }else{
+        // save the user into req obj
+        req.useAuthId= decodedUser?.id;
+        next()
     }
-    req.user = user
-    next()
-  } catch (error) {
-    return res.status(401).json({ message: "Authentication failed" })
-  }
 }
-
-export default isLogin;
+export default IsLogin;
