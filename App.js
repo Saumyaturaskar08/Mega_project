@@ -10,7 +10,8 @@ import colorsRoutes from "./Routes/colorsRoutes.js";
 import reviewRoutes from "./Routes/reviewRoutes.js";
 import orderRoutes from "./Routes/orderRoutes.js";
 import couponRoutes from "./Routes/couponRoutes.js";
-import { errorHandler } from "./middleware/ErrorHandler.js";
+import  errorHandler from "./middleware/debuged.js";
+//import { errorHandler } from "./middleware/ErrorHandler.js";
 //import errorHandler from "../middleware/ErrorHandler.js"
 
 // Initialize app

@@ -7,5 +7,6 @@ export const errorHandler=(err, req, res, next)=> {
     message
    })
 }
+export default errorHandler;
 
-// 123
+// exported completely now here 
