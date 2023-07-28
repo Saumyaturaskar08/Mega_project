@@ -1,5 +1,5 @@
 // Import the Color model from the color.js module
-import Color from "../model/Color.js";
+import Color from "../model/color.js";
 import asyncHandler from "express-async-handler";
 
 // Create a new color
